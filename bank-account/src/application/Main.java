@@ -12,14 +12,16 @@ public class Main {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
+        // TODO properly treat exceptions
         System.out.print("Enter account number: ");
         int id = sc.nextInt();
 
+        // TODO properly treat exceptions
         System.out.print("Enter account holder: ");
         sc.nextLine();
         String holder = sc.nextLine();
 
-        // TODO: this y/n question is bad, I know. Will fix soon. Just testing for now.
+        // TODO change this bad question and properly treat exceptions.
         System.out.print("Is there an initial deposit? (y/n) ");
         char answer = sc.next().charAt(0);
 
