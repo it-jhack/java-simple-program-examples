@@ -1,6 +1,10 @@
 # Personal
 .src-template
 
+# Intellij
+.idea/
+*.iml
+
 # Compiled class file
 *.class
 
