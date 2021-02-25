@@ -15,7 +15,7 @@ public class RentalService {
 
     // TL;DR: BrazilTaxService here is bad practice because code maintenance will be bad.
     // Use Interface instead.
-    private BrazilTaxService taxService;
+    private BrazilTaxService taxService; // Tight coupling (bad practice)
 
     public RentalService(Double pricePerDay, Double pricePerHour, BrazilTaxService taxService) {
         this.pricePerDay = pricePerDay;
