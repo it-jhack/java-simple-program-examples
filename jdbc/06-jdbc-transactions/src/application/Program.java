@@ -21,11 +21,10 @@ public class Program {
 
         // API:
         // setAutoCommit(false):
-            // true = each isolated operation will be automatically confirmed
-            // false = each isolated operations is NOT auto confirmed.
+        // true = each isolated operation will be automatically confirmed
+        // false = each isolated operations is NOT auto confirmed.
         // commit() = confirm transaction
         // rollback() = undo
-
 
         Connection conn = null;
         Statement st = null;
@@ -41,10 +40,10 @@ public class Program {
 
             // SIMULATING AN ERROR:
 
-            int x = 1;
-            if (x < 2) {
-            	throw new SQLException("Fake error");
-            }
+            //int x = 1;
+            //if (x < 2) {
+            //    throw new SQLException("Fake error");
+            //}
 
             int rows2 = st.executeUpdate(
                     "UPDATE seller SET BaseSalary = 3090 WHERE DepartmentId = 2");
