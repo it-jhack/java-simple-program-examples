@@ -2,9 +2,7 @@ package application;
 
 import db.DB;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -21,7 +19,8 @@ public class Program {
                     "INSERT INTO seller "
                     + "(Name, Email, BirthDate, BaseSalary, DepartmentId)"
                     + "VALUES "
-                    + "(?, ?, ?, ?, ?)"); // placeholders
+                    + "(?, ?, ?, ?, ?)", // placeholders
+                    Statement.RETURN_GENERATED_KEYS); // (overloading) insertion + retrieving created id
 
             st.setString(1, "Carl Johnson"); // 1st placeholder receives "Carl Johnson"
             st.setString(2, "cj@grovemail.com");
@@ -30,10 +29,25 @@ public class Program {
             st.setDouble(4, 3000.0);
             st.setInt(5, 4); // 5th field, DepartmentId == 4
 
+            // it's possible to add more than one Id at once:
+            st = conn.prepareStatement(
+                    "insert into department (Name) values ('D1'), ('D2')",
+                    Statement.RETURN_GENERATED_KEYS);
+
             // st.executeUpdate() return an int of how many lines were modified
             int rowsUpdated = st.executeUpdate();
 
-            System.out.println(rowsUpdated + " rows updated successfully!");
+            if (rowsUpdated > 0) {
+                // st.getGeneratedKeys() returns ResultSet
+                ResultSet rs = st.getGeneratedKeys();
+                while (rs.next()) {
+                    int id = rs.getInt(1);
+                    System.out.println("Updated! Id: " + id);
+                }
+            }
+            else {
+                System.out.println("No rows updated.");
+            }
         }
         catch (SQLException e) {
             e.printStackTrace();
