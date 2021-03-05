@@ -70,9 +70,16 @@ the object Factory will be responsible for instantiating DAO implementations.
 
 
         System.out.println("\n===== TEST 4: seller insert() =====");
-        Seller newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.0, department);
+        Seller newSeller = new Seller(null, "Dwight Schrute", "dwights@dundermifflin.com", new Date(), 4000.0, department);
         sellerDao.insert(newSeller);
         System.out.println("Seller inserted! New seller's id = " + newSeller.getId());
+
+
+        System.out.println("\n===== TEST 5: seller update() =====");
+        seller = sellerDao.findById(1); // selecting seller with id #1
+        seller.setName("Jim Halpert"); // changing seller's name
+        sellerDao.update(seller); // updating
+        System.out.println("Update completed");
 
     }
 }
