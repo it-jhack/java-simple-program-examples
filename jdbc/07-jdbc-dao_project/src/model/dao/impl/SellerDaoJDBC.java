@@ -109,12 +109,6 @@ public class SellerDaoJDBC implements SellerDao {
         return obj;
     }
 
-    @Override
-    public List<Seller> findAll() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public List<Seller> findByDepartment(Department department) {
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -170,6 +164,48 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeResultSet(rs);
             // Do not close connection in the method, because the same DAO object can do more
             // than one operation. Close the connection on the main Program.
+        }
+    }
+
+    @Override
+    public List<Seller> findAll() {
+        // Very similar to findByDepartment(), differences are commented out
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement(
+                    "SELECT seller.*,department.Name as DepName "
+                            + "FROM seller INNER JOIN department "
+                            + "ON seller.DepartmentId = department.Id "
+                            // + "WHERE DepartmentId = ? " // DIFF findByDepartment()
+                            + "ORDER BY Name");
+
+            // st.setInt(1, department.getId()); // DIFF findByDepartment()
+            rs = st.executeQuery();
+
+            List<Seller> list = new ArrayList<>();
+            Map<Integer, Department> map = new HashMap<>();
+
+            // 'while' because there can be more than one result
+            while (rs.next()) {
+                Department dep = map.get(rs.getInt("DepartmentId"));
+
+                if (dep == null) {
+                    dep = instantiateDepartment(rs);
+                    map.put(rs.getInt("DepartmentId"), dep);
+                }
+
+                Seller obj = instantiateSeller(rs, dep);
+                list.add(obj);
+            }
+            return list;
+        }
+        catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
         }
     }
 }
