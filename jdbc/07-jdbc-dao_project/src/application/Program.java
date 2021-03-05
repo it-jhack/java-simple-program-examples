@@ -7,6 +7,7 @@ import model.entities.Seller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
@@ -42,6 +43,7 @@ the object Factory will be responsible for instantiating DAO implementations.
 
         // DaoFactory: responsible for instantiating the DAOs
 
+        Scanner sc = new Scanner(System.in);
 
         SellerDao sellerDao = DaoFactory.createSellerDao();
 
@@ -80,6 +82,15 @@ the object Factory will be responsible for instantiating DAO implementations.
         seller.setName("Jim Halpert"); // changing seller's name
         sellerDao.update(seller); // updating
         System.out.println("Update completed");
+
+
+        System.out.println("\n===== TEST 6: seller delete() =====");
+        System.out.println("Enter seller's id to be deleted: ");
+        int id = sc.nextInt();
+        sellerDao.deleteById(id);
+        System.out.println("Delete completed!");
+
+        sc.close();
 
     }
 }
