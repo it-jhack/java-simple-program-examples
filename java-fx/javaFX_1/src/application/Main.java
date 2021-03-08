@@ -14,6 +14,9 @@ public class Main extends Application {
     // 'start' = mandatory
     // 'stop' = things to do after your application
 
+    // IntelliJ: sometimes errors can be avoided by cleaning the cache:
+    // File > Invalidate caches > Restart
+
     @Override
     public void start(Stage stage) {
         try {

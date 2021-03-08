@@ -1,6 +1,8 @@
 package gui;
 
+import gui.util.Alerts;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 public class ViewController {
@@ -14,7 +16,10 @@ public class ViewController {
     // action == main event associated to that attribute (in the button case, it's the click)
     @FXML
     public void onBtTestAction() {
-        System.out.println("Congratulations! You clicked a button!");
+        Alerts.showAlert("alertTitle",
+                "alertHeader", // can be null
+                "alertContent",
+                Alert.AlertType.INFORMATION);
     }
 
 //    On view (Scene Builder):
