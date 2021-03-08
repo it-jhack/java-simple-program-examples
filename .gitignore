@@ -1,12 +1,12 @@
-# Personal
-.src-template
-
 # Intellij
 .idea/
 *.iml
 
 #Intellij/MySQL Connector (jdbc)
 *.properties
+
+# Compilation dir
+**/out
 
 # Compiled class file
 *.class
