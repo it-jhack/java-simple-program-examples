@@ -1,15 +1,19 @@
 package gui;
 
 import gui.util.Alerts;
+import gui.util.Constraints;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.net.URL;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class ViewController {
+public class ViewController implements Initializable {
     // Treats events (clicking, typing forms, etc.)
     // Do not confuse "Controller" class with "controls" (buttons, text boxes, etc.)
 
@@ -43,6 +47,18 @@ public class ViewController {
             Alerts.showAlert("Error", "Parse error", e.getMessage(), Alert.AlertType.ERROR);
         }
 
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // 'url' is the location of the .fxml file.
+        // 'rb' can be used to use strings of different languages: https://stackoverflow.com/questions/26325403/how-to-implement-language-support-for-javafx-in-fxml-documents
+
+        // Actions to be exec when instantiating Controller:
+        Constraints.setTextFieldDouble(txtNumber1);
+        Constraints.setTextFieldDouble(txtNumber2);
+        Constraints.setTextFieldMaxLength(txtNumber1, 12);
+        Constraints.setTextFieldMaxLength(txtNumber2, 12);
     }
 
 //    On view (Scene Builder):
