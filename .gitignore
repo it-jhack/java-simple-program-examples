@@ -1,13 +1,3 @@
-# Intellij
-.idea/
-*.iml
-
-#Intellij/MySQL Connector (jdbc)
-*.properties
-
-# Compilation dir
-**/out
-
 # Compiled class file
 *.class
 
@@ -31,3 +21,20 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Intellij
+.idea/
+*.iml
+
+#Intellij/MySQL Connector (jdbc)
+*.properties
+
+# Build dirs
+**/out
+**/bin
+**/target
+**/nbproject/private
+**/build
+**/nbbuild
+**/dist
+**/nbdist
