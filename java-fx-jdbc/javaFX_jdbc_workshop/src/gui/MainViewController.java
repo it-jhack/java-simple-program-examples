@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
@@ -35,22 +36,30 @@ public class MainViewController implements Initializable {
 
     @FXML
     public void onMenuItemDepartmentAction() {
-        //loadView("/gui/DepartmentList.fxml");
-        loadView2("/gui/DepartmentList.fxml"); //TODO test
+        // second param is initializer lambda func:
+        loadView("/gui/DepartmentList.fxml", (DepartmentListController controller) -> {
+            controller.setDepartmentService(new DepartmentService());
+            controller.updateTableView();
+        });
     }
 
     @FXML
     public void onMenuItemAboutAction() {
-        loadView("/gui/About.fxml");
+        // empty lambda func as second param
+        loadView("/gui/About.fxml", x -> {});
     }
 
     @Override
     public void initialize(URL uri, ResourceBundle rb) {
     }
 
-    // func to open another window
-    // synchronized: guarantees all 'try' processing won't be interrupted during multi-threading
-    private synchronized void loadView(String absoluteName) {
+    // func to open another view;
+    // synchronized: guarantees all 'try' processing won't be interrupted during multi-threading;
+    // func loadView now has generic type <T>;
+    //
+    // Now we don't need two separate loadView() functions,
+    // as the same loadView func can load both non-action and action views;
+    private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
             // new vbox
@@ -69,33 +78,11 @@ public class MainViewController implements Initializable {
             mainVBox.getChildren().add(mainMenu);
             // adding children of new vbox
             mainVBox.getChildren().addAll(newVBox.getChildren());
-        }
-        catch (IOException e) {
-            Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
-        }
-    }
 
-    //TODO test
-    private synchronized void loadView2(String absoluteName) {
-        try {
-            // Same as loadView
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-            VBox newVBox = loader.load();
-
-            Scene mainScene = Main.getMainScene();
-            VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-
-            Node mainMenu = mainVBox.getChildren().get(0);
-            mainVBox.getChildren().clear();
-            mainVBox.getChildren().add(mainMenu);
-            mainVBox.getChildren().addAll(newVBox.getChildren());
-
-            // Diff from loadView
-            // Accessing controller of this view
-            DepartmentListController controller = loader.getController();
-            // injecting service dependency into controller
-            controller.setDepartmentService(new DepartmentService());
-            controller.updateTableView();
+            // special command to activate lambda func provided as param
+            T controller = loader.getController();
+            // Exec:
+            initializingAction.accept(controller);
         }
         catch (IOException e) {
             Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
