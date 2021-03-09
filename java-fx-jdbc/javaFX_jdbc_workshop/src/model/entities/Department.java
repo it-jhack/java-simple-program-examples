@@ -3,6 +3,9 @@ package model.entities;
 import java.io.Serializable;
 
 public class Department implements Serializable {
+    //'implements Serializable': so our objects can be transformed into byte sequences.
+    // In java this is needed if the object is going to be written into a file,
+    // transported on the network, etc.
 
     private static final long serialVersionUID = 1L;
 
