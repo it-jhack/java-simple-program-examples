@@ -3,9 +3,11 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -42,6 +44,9 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
     @FXML
     private TableColumn<Department, Department> tableColumnEDIT;
+
+    @FXML
+    private TableColumn<Department, Department> tableColumnDELETE;
 
     @FXML
     private Button btNew;
@@ -85,6 +90,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
         obsList = FXCollections.observableArrayList(list);
         tableViewDepartment.setItems(obsList);
         initEditButtons();
+        initDeleteButtons();
     }
 
     private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
@@ -138,5 +144,42 @@ public class DepartmentListController implements Initializable, DataChangeListen
                         event -> createDialogForm(obj, "/gui/DepartmentForm.fxml", Utils.currentStage(event)));
             }
         });
+    }
+
+    private void initDeleteButtons() {
+        tableColumnDELETE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        tableColumnDELETE.setCellFactory(param -> new TableCell<Department, Department>() {
+            private final Button button = new Button("remove");
+
+            @Override
+            protected void updateItem(Department obj, boolean empty) {
+                super.updateItem(obj, empty);
+                if (obj == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(button);
+                button.setOnAction(event -> deleteEntity(obj));
+            }
+        });
+    }
+
+    private void deleteEntity(Department obj) {
+        // delete confirmation message
+        Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure you want to delete?");
+
+        // if user clicked 'OK', try to delete
+        if (result.get() == ButtonType.OK) {
+            if (service == null) {
+                throw new IllegalStateException("Service was null");
+            }
+            try {
+                service.delete(obj);
+                updateTableView();
+            }
+            catch (DbIntegrityException e) {
+                Alerts.showAlert("Error deleting object", null, e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 }
