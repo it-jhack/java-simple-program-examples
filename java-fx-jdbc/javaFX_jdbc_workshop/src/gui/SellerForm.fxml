@@ -10,10 +10,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<!--
-TODO Seller department
- -->
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="355.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SellerFormController">
     <children>
         <GridPane layoutX="32.0" layoutY="27.0" prefHeight="232.0" prefWidth="499.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -53,6 +51,7 @@ TODO Seller department
                 <Label fx:id="labelErrorEmail" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                 <Label fx:id="labelErrorBirthDate" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                 <Label fx:id="labelErrorBaseSalary" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                <ComboBox fx:id="comboBoxDepartment" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             </children>
         </GridPane>
     </children>
