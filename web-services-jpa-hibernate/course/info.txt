@@ -1,0 +1,12 @@
+Test Environment
+----------------
+SpringBoot = framework to create application
+Apache Tomcat = web container to execute application
+Maven = dependencies manager
+H2 = in-memory db for tests
+Postman = test requisitions
+
+Production Environment
+----------------------
+PostgreSQL = relational db
+Heroku = app publication
