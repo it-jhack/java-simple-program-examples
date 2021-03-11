@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
@@ -24,7 +26,12 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgUrl;
 
-	@Transient // Blocks JPA from interpreting (temporary adaption)
+	// @Transient // Blocks JPA from interpreting (temporary adaption)
+	// A product can have many categories and a category can have many products
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", // table's name on db 
+	joinColumns = @JoinColumn(name = "product_id"), // product's foreign key
+	inverseJoinColumns = @JoinColumn(name = "category_id")) // category's foreign key
 	private Set<Category> categories = new HashSet<>(); // 'Set' to avoid duplicates
 	// Why HashSet? Same reason we use 'List' with 'ArrayList'
 	// Set is an interface and cannot be instantiated
