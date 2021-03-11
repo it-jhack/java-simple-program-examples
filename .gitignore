@@ -29,6 +29,12 @@ hs_err_pid*
 #Intellij/MySQL Connector (jdbc)
 *.properties
 
+# Eclipse/Spring Tool Suite
+**/.classpath
+**/.project
+**/.settings
+
+
 # Build dirs
 **/out
 **/bin
