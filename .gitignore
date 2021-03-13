@@ -34,7 +34,6 @@ hs_err_pid*
 **/.project
 **/.settings
 
-
 # Build dirs
 **/out
 **/bin
@@ -44,3 +43,9 @@ hs_err_pid*
 **/nbbuild
 **/dist
 **/nbdist
+
+# STS4
+**/.metadata
+**/.mvn
+**/mvnw
+**/mvnw.cmd
