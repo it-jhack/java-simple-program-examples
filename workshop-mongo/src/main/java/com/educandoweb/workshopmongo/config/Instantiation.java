@@ -19,10 +19,10 @@ import com.educandoweb.workshopmongo.repository.UserRepository;
 public class Instantiation implements CommandLineRunner {
 
 	@Autowired
-	private UserRepository userReposiroty;
+	private UserRepository userRepository;
 	
 	@Autowired
-	private PostRepository postReposiroty;
+	private PostRepository postRepository;
 
 	@Override
 	public void run(String... arg0) throws Exception {
@@ -30,14 +30,14 @@ public class Instantiation implements CommandLineRunner {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-		userReposiroty.deleteAll(); // Every run will delete all and instantiate 3 users below:
-		postReposiroty.deleteAll();
+		userRepository.deleteAll(); // Every run will delete all and instantiate 3 users below:
+		postRepository.deleteAll();
 
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
-		userReposiroty.saveAll(Arrays.asList(maria, alex, bob));
+		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 		
 		// Saving users before post instantiation/association so "author" does not return null id
 		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
@@ -50,10 +50,10 @@ public class Instantiation implements CommandLineRunner {
 		post1.getComments().addAll(Arrays.asList(c1, c2));
 		post2.getComments().addAll(Arrays.asList(c3));
 		
-		postReposiroty.saveAll(Arrays.asList(post1, post2));
+		postRepository.saveAll(Arrays.asList(post1, post2));
 		
 		maria.getPosts().addAll(Arrays.asList(post1, post2));
-		userReposiroty.save(maria);
+		userRepository.save(maria);
 	}
 
 }
